@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math"
 	"strings"
 )
@@ -44,4 +45,29 @@ func lengthOfLongestSubstring2(s string) int {
         }
     }
     return highest
+} 
+
+func lengthOfLongestSubstring3(s string) int {
+    charSet := make(map[byte]bool)
+    l := 0
+    res := 0
+    
+    for r := range s {
+        for charSet[s[r]] {
+            delete(charSet,s[l])
+            l++
+        }
+        fmt.Println(charSet)
+        charSet[s[r]] = true
+        res = max(res, r-l+1)
+    }
+    return res
 }
+
+func max(a,b int) int {
+    if a > b{
+        return a
+    }
+    return b
+}
+
