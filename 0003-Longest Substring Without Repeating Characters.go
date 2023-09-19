@@ -48,10 +48,12 @@ func lengthOfLongestSubstring2(s string) int {
 } 
 
 func lengthOfLongestSubstring3(s string) int {
+    //This bool key is important because its used as the condition for the nested for loop
     charSet := make(map[byte]bool)
-    l := 0
+    l := 0 //Left pointer
     res := 0
     
+    //r = right pointer
     for r := range s {
         for charSet[s[r]] {
             delete(charSet,s[l])
