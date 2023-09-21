@@ -48,14 +48,15 @@ func lengthOfLongestSubstring2(s string) int {
 } 
 
 func lengthOfLongestSubstring3(s string) int {
+    //It's still sliding window
     //This bool key is important because its used as the condition for the nested for loop
     charSet := make(map[byte]bool)
     l := 0 //Left pointer
     res := 0
     
     //r = right pointer
-    for r := range s {
-        for charSet[s[r]] {
+    for r := range s {//incrementing right pointer
+        for charSet[s[r]] { //Think of this condition as, "while a duplicate exists, slide the window/left pointer"
             delete(charSet,s[l])
             l++
         }
