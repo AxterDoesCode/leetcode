@@ -1,66 +1,57 @@
 package main
 
+type StackNode struct {
+    val int
+    lastMin int
+    nextNode *StackNode
+}
 type MinStack struct {
     top *StackNode
-    min int 
-}
-
-type StackNode struct {
-    data int
-    next *StackNode
-    lastMin int
 }
 
 
 func Constructor() MinStack {
-    return MinStack {
-        top : nil,
-    }
+    return MinStack{top : nil}
 }
 
 
 func (this *MinStack) Push(val int)  {
-    var newTop *StackNode
+    //Need to calculate the lastMin here
     if this.top == nil {
-        newTop = &StackNode{
-            data : val,
-            next : nil,
-            lastMin : val,
+        this.top = &StackNode{
+            val : val, 
+            lastMin : val, 
+            nextNode : nil,
         }
     } else {
-        newTop = &StackNode{
-            data : val,
-            next : this.top,
-        }
-        if this.top.lastMin < val{
-            newTop.lastMin = this.top.lastMin
-        } else {
-            newTop.lastMin = val
+        this.top = &StackNode {
+            val : val,
+            lastMin : min(val, this.top.lastMin),
+            nextNode : this.top,
         }
     }
-    this.top = newTop
-    this.min = this.top.lastMin
 }
 
 
 func (this *MinStack) Pop()  {
-    if this.top.next == nil {
-        this.top = nil
-        this.min = -9999999999
-    } else {
-        this.top = this.top.next
-        this.min = this.top.lastMin
-    }
+    this.top = this.top.nextNode
 }
 
 
 func (this *MinStack) Top() int {
-    return this.top.data
+    return this.top.val
 }
 
 
 func (this *MinStack) GetMin() int {
-    return this.min
+    return this.top.lastMin
+}
+
+func min(a, b int) int {
+    if a > b {
+        return b
+    }
+    return a
 }
 
 
